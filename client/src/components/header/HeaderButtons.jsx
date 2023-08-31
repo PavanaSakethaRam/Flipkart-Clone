@@ -1,5 +1,12 @@
+import React from 'react';
+import { useState, useContext } from 'react';
 import { Box, Button, Typography, styled } from '@mui/material';
 import { ShoppingCart } from '@mui/icons-material';
+
+// Components
+import LoginDialog from '../login/LoginDialog';
+import { DataContext } from '../../context/dataProvider';
+import Profile from './Profile';
 
 const BoxWrapper = styled(Box)`
     display: flex;
@@ -39,9 +46,19 @@ const CustomButton = styled(Typography)`
 `
 
 const HeaderButtons = () => {
+    const [open, setOpen] = useState(false);
+
+    const { account, setAccount } = useContext(DataContext);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
     return (
         <BoxWrapper>
-            <LoginButton variant='contained'>Login</LoginButton>
+            {
+                account ? <Profile account={account} setAccount={setAccount}/> : 
+                <LoginButton variant='contained' onClick={handleClickOpen}>Login</LoginButton>
+            }
             
             <CustomButton>Become a Seller</CustomButton>
             <CustomButton >More</CustomButton >
@@ -52,6 +69,7 @@ const HeaderButtons = () => {
                     Cart
                 </CustomButton >
             </Box>
+            <LoginDialog open={open} setOpen={setOpen}/>
         </BoxWrapper>
     )
 }
