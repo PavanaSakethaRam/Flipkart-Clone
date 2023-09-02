@@ -1,4 +1,8 @@
-import {AppBar,Toolbar,Box,Typography,styled} from '@mui/material';
+import React from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AppBar, Drawer, Toolbar, Box, Typography, styled, IconButton, List, ListItem } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 // Components
 import SearchBar from './Search';
@@ -11,9 +15,11 @@ const StyledHeader = styled(AppBar)`
     padding: 0;
 `
 
-const BoxComponent = styled(Box)`
+const BoxComponent = styled(Link)`
     margin-left: 12%;
     line-height: 0;
+    text-decoration: none;
+    color: inherit;
 `
 const TypoComponent = styled(Typography)`
     font-size: 10px;
@@ -25,21 +31,55 @@ const PlusLogo = styled('img')({
     'margin-left': '4px'
 });
 
+const MenuButton = styled(IconButton)(({ theme }) => ({
+    [theme.breakpoints.up('md')]: {
+        display: 'none'
+    }
+}));
+
 const Header = () => {
-    const logoURL="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png";
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const logoURL = "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/flipkart-plus_8d85f4.png";
     const subURL = "https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/plus_aef861.png";
+    const [open, setOpen] = useState(false);
+    const handleOpenDrawer = () => {
+        setOpen(true);
+    }
+    const list = () => (
+        <Box style={{width:200}}>
+            <List>
+                <ListItem >
+                    <HeaderButtons />
+                </ListItem>
+            </List>
+        </Box>
+    )
     return (
-        <StyledHeader>
-            <Toolbar style={{minHeight: 55}}>
-                <BoxComponent>
-                    <img src={logoURL} alt="logo" style={{'width':'75px' }}/>
+        <StyledHeader
+            // on resize of window, set the width of the window
+            onResize={() => setWindowWidth(window.innerWidth)}
+        >
+            <Toolbar style={{ minHeight: 55 }}>
+                {windowWidth <= 900 &&
+                    <MenuButton color='inherit' onClick={handleOpenDrawer}>
+                        <MenuIcon />
+                    </MenuButton>}
+                <Drawer open={open} onClose={() => setOpen(false)}>
+                    {list()}
+                </Drawer>
+                <BoxComponent to='/'>
+                    <img src={logoURL} alt="logo" style={{ 'width': '75px' }} />
                     <TypoComponent>Explore&nbsp;
-                        <Box component="span" style={{color:'#FFE500'}}>Plus</Box>
+                        <Box component="span" style={{ color: '#FFE500' }}>Plus</Box>
                         <PlusLogo src={subURL} alt="sub-logo" />
                     </TypoComponent>
                 </BoxComponent>
-            <SearchBar />
-            <HeaderButtons />
+                <SearchBar />
+                <Box
+                    sx={{ display: { xs: 'none', md: 'flex' } }}
+                >
+                    <HeaderButtons />
+                </Box>
             </Toolbar>
         </StyledHeader>
     )

@@ -8,6 +8,6 @@ router.post('/signup', signup);
 router.post('/login', signin);
 
 router.get('/products', getProducts);
-router.get('/products/:id', getProductById);
+router.get('/product/:id', getProductById);
 
 export default router;

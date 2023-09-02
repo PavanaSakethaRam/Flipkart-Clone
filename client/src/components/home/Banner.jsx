@@ -4,11 +4,15 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { bannerData } from '../../constants/data';
 
-const CarouselImage = styled('img')({
+const CarouselImage = styled('img')(({theme}) => ({
     width: '100%',
     height: '280px',
-    objectFit: 'cover'
-});
+    objectFit: 'cover',
+    [theme.breakpoints.down('md')]: {
+        height: 180,
+        objectFit: 'cover'
+    }
+}));
 
 const responsive = {
     desktop: {

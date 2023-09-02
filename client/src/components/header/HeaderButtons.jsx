@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useContext } from 'react';
 import { Box, Button, Typography, styled } from '@mui/material';
-import { ShoppingCart } from '@mui/icons-material';
+import { ShoppingCart} from '@mui/icons-material';
+
 
 // Components
 import LoginDialog from '../login/LoginDialog';
@@ -18,6 +19,10 @@ const BoxWrapper = styled(Box)`
         font-size: 14px;
     }
     gap: 30px;
+    // media query
+    @media (max-width: 900px){
+        display: block; 
+    }
 `
 
 const LoginButton = styled(Button)`
@@ -36,14 +41,13 @@ const LoginButton = styled(Button)`
         border: 1px solid #FFFFFF;
     }
 `
-const CustomButton = styled(Typography)`
-    &:hover{
-        background-color: #2874f0;
-        opacity: 0.8;
-        cursor: pointer;
-    }
-
-`
+const CustomButton = styled(Typography)(({
+    '&:hover':{
+        background: '#2874f0',
+        opacity: '0.8',
+        cursor: 'pointer',
+    },
+}));
 
 const HeaderButtons = () => {
     const [open, setOpen] = useState(false);
@@ -59,11 +63,11 @@ const HeaderButtons = () => {
                 account ? <Profile account={account} setAccount={setAccount}/> : 
                 <LoginButton variant='contained' onClick={handleClickOpen}>Login</LoginButton>
             }
-            
             <CustomButton>Become a Seller</CustomButton>
             <CustomButton >More</CustomButton >
 
-            <Box style={{display:'flex'}}>
+            <Box style={{ display: 'flex' }}
+            >
                 <ShoppingCart />
                 <CustomButton >
                     Cart

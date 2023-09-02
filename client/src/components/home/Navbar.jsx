@@ -2,13 +2,17 @@ import React from "react";
 import { Box, Typography, styled } from "@mui/material";
 import { navData } from "../../constants/data";
 
-const NavBox = styled(Box)`
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 0;
-    margin: 0 10%;
-    align-items: center;
-`
+const NavBox = styled(Box)(({theme}) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '20px 0',
+    margin: '0 10%',
+    alignItems: 'center',
+    overflowX: 'hidden',
+    [theme.breakpoints.down('md')]: {
+        margin: '0 5%'
+    }
+}))
 const StyledText = styled(Typography)`
     font-size: 14px;
     font-weight: 600;
